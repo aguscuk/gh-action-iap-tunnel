@@ -4,8 +4,6 @@ on:
       - 'main'
 
 name: 'Connect to GCP instance via ssh and execute a command'
-env:
-  ZONE: 'asia-southeast2-a'
 
 jobs:
   ssh:
