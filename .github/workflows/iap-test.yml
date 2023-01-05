@@ -22,34 +22,19 @@ env:
   ZONE: 'asia-southeast2'
 
 jobs:
-  ssh:
-    runs-on: 'ubuntu-latest'
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
+  job_id:
     steps:
-    - name: 'Checkout'
-      uses: 'actions/checkout@v3'
+    - uses: 'actions/checkout@v3'
 
-    # Configure Workload Identity Federation and generate an access token.
     - id: 'auth'
-      name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v0'
       with:
-        workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
-        service_account: '${{ secrets.SERVICE_ACCOUNT }}'
-        
-    - name: 'SSH to GCP instance'
-      id: 'ssh'
+        credentials_json: '${{ secrets.gcp_credentials }}'
+
+    - id: 'compute-ssh'
       uses: 'google-github-actions/ssh-compute@v0'
       with:
-        instance_name: 'instance-name'
-        zone: '${{ env.ZONE }}'
+        instance_name: 'example-instance'
+        zone: 'us-central1-a'
         ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
         command: 'echo Hello world'
-
-    - name: 'Show Output'
-      run: |-
-        echo '${{ steps.ssh.outputs.stdout }}'
-        echo '${{ steps.ssh.outputs.stderr }}'
