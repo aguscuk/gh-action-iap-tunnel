@@ -5,7 +5,7 @@ on:
 
 name: 'Connect to GCP instance via ssh and execute a command'
 env:
-  ZONE: 'us-central1-a'
+  ZONE: 'asia-southeast2-a'
 
 jobs:
   ssh:
@@ -25,7 +25,7 @@ jobs:
     - id: 'compute-ssh'
       uses: 'google-github-actions/ssh-compute@v0'
       with:
-        instance_name: 'example-instance'
-        zone: 'us-central1-a'
+        instance_name: 'instance-1'
+        zone: 'asia-southeast2-a'
         ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
         command: 'echo Hello world'
